@@ -111,7 +111,7 @@ int main(void)
 				if(rx_buffer[0] == 'o' && rx_buffer[1] == 'n'){
 					gpio_set_pin_level(relay_signal, true);
 				}
-				if(rx_buffer[0] == 'o' && rx_buffer[1] == 'f' && rx_buffer[2] =='f'){
+				if(rx_buffer[0] == 'o' && rx_buffer[1] == 'k' && rx_buffer[2] =='k'){
 					gpio_set_pin_level(relay_signal, false);
 				}
 				
