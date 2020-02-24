@@ -29,9 +29,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  12 .debug_line   00013c9a  00000000  00000000  0007dfb0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    0009d6ca  00000000  00000000  00091c4a  2**0
+ 13 .debug_str    0009d717  00000000  00000000  00091c4a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_frame  0000235c  00000000  00000000  0012f314  2**2
+ 14 .debug_frame  0000235c  00000000  00000000  0012f364  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -4181,7 +4181,7 @@ int main(void)
 		{
 			if(serial_complete == 1)
     15d8:	4d25      	ldr	r5, [pc, #148]	; (1670 <main+0xa4>)
-				if(rx_buffer[0] == 'o' && rx_buffer[1] == 'f' && rx_buffer[2] =='f'){
+				if(rx_buffer[0] == 'o' && rx_buffer[1] == 'k' && rx_buffer[2] =='k'){
 					gpio_set_pin_level(relay_signal, false);
 				}
 				
@@ -4196,6 +4196,11 @@ int main(void)
     15e4:	795b      	ldrb	r3, [r3, #5]
     15e6:	2b6e      	cmp	r3, #110	; 0x6e
     15e8:	d12a      	bne.n	1640 <main+0x74>
+	((Port *)hw)->Group[submodule_index].DIRTGL.reg = mask;
+}
+
+static inline void hri_port_set_OUT_reg(const void *const hw, uint8_t submodule_index, hri_port_out_reg_t mask)
+{
 	((Port *)hw)->Group[submodule_index].OUTSET.reg = mask;
     15ea:	3a78      	subs	r2, #120	; 0x78
     15ec:	618a      	str	r2, [r1, #24]
@@ -4251,19 +4256,24 @@ int main(void)
     163a:	791b      	ldrb	r3, [r3, #4]
     163c:	2b6f      	cmp	r3, #111	; 0x6f
     163e:	d0d0      	beq.n	15e2 <main+0x16>
-				if(rx_buffer[0] == 'o' && rx_buffer[1] == 'f' && rx_buffer[2] =='f'){
+				if(rx_buffer[0] == 'o' && rx_buffer[1] == 'k' && rx_buffer[2] =='k'){
     1640:	4b0a      	ldr	r3, [pc, #40]	; (166c <main+0xa0>)
     1642:	791b      	ldrb	r3, [r3, #4]
     1644:	2b6f      	cmp	r3, #111	; 0x6f
     1646:	d1d3      	bne.n	15f0 <main+0x24>
     1648:	4b08      	ldr	r3, [pc, #32]	; (166c <main+0xa0>)
     164a:	795b      	ldrb	r3, [r3, #5]
-    164c:	2b66      	cmp	r3, #102	; 0x66
+    164c:	2b6b      	cmp	r3, #107	; 0x6b
     164e:	d1cf      	bne.n	15f0 <main+0x24>
     1650:	4b06      	ldr	r3, [pc, #24]	; (166c <main+0xa0>)
     1652:	799b      	ldrb	r3, [r3, #6]
-    1654:	2b66      	cmp	r3, #102	; 0x66
+    1654:	2b6b      	cmp	r3, #107	; 0x6b
     1656:	d1cb      	bne.n	15f0 <main+0x24>
+	((Port *)hw)->Group[submodule_index].OUTCLR.reg = ~data;
+}
+
+static inline void hri_port_clear_OUT_reg(const void *const hw, uint8_t submodule_index, hri_port_out_reg_t mask)
+{
 	((Port *)hw)->Group[submodule_index].OUTCLR.reg = mask;
     1658:	2220      	movs	r2, #32
     165a:	23c0      	movs	r3, #192	; 0xc0
