@@ -17,7 +17,7 @@ volatile uint8_t tx_buffer[SERIAL_BUF_SIZE + 14] = "Your messages : ";
 
 static void serial_rx_cb(const struct usart_async_descriptor *const io_descr)
 {
-	// Counter
+	// count - Received bytes counter 
 	uint8_t ch, count;
 	
 	//Read a character
