@@ -125,7 +125,7 @@ main.d main.o: .././main.c ../atmel_start.h ../driver_init.h \
  ../hal/utils/include/utils_assert.h ../hal/include/hal_can_async.h \
  ../hal/include/hpl_can.h ../hal/include/hpl_can_async.h \
  ../hal/include/hal_temp_sync.h ../hal/include/hpl_temp_sync.h \
- ../usart_serial.h
+ ../usart_serial.h ../usart_handler.h
 
 ../atmel_start.h:
 
@@ -466,3 +466,5 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\Atmel\SAMC21_DFP\1.2.176\samc21\
 ../hal/include/hpl_temp_sync.h:
 
 ../usart_serial.h:
+
+../usart_handler.h:

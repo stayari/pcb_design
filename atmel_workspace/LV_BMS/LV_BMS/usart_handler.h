@@ -11,6 +11,9 @@
 
 
 
+//handles the messages from usart and decides the action
+void usart_done(void);
 
-
+//String arrays initialization used in the usart handler function
+void usart_strings_init(void);
 #endif /* USART_HANDLER_H_ */
