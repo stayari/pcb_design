@@ -62,6 +62,7 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../atmel_start.c \
+../usart_handler.c \
 ../Device_Startup/startup_samc21.c \
 ../Device_Startup/system_samc21.c \
 ../driver_init.c \
@@ -95,7 +96,8 @@ C_SRCS +=  \
 ../hpl/pm/hpl_pm.c \
 ../hpl/sercom/hpl_sercom.c \
 ../hpl/tsens/hpl_tsens.c \
-../main.c
+../main.c \
+../usart_serial.c
 
 
 PREPROCESSING_SRCS += 
@@ -106,6 +108,7 @@ ASM_SRCS +=
 
 OBJS +=  \
 atmel_start.o \
+usart_handler.o \
 Device_Startup/startup_samc21.o \
 Device_Startup/system_samc21.o \
 driver_init.o \
@@ -139,10 +142,12 @@ hpl/oscctrl/hpl_oscctrl.o \
 hpl/pm/hpl_pm.o \
 hpl/sercom/hpl_sercom.o \
 hpl/tsens/hpl_tsens.o \
-main.o
+main.o \
+usart_serial.o
 
 OBJS_AS_ARGS +=  \
 atmel_start.o \
+usart_handler.o \
 Device_Startup/startup_samc21.o \
 Device_Startup/system_samc21.o \
 driver_init.o \
@@ -176,10 +181,12 @@ hpl/oscctrl/hpl_oscctrl.o \
 hpl/pm/hpl_pm.o \
 hpl/sercom/hpl_sercom.o \
 hpl/tsens/hpl_tsens.o \
-main.o
+main.o \
+usart_serial.o
 
 C_DEPS +=  \
 atmel_start.d \
+usart_handler.d \
 Device_Startup/startup_samc21.d \
 Device_Startup/system_samc21.d \
 driver_init.d \
@@ -213,10 +220,12 @@ hpl/oscctrl/hpl_oscctrl.d \
 hpl/pm/hpl_pm.d \
 hpl/sercom/hpl_sercom.d \
 hpl/tsens/hpl_tsens.d \
-main.d
+main.d \
+usart_serial.d
 
 C_DEPS_AS_ARGS +=  \
 atmel_start.d \
+usart_handler.d \
 Device_Startup/startup_samc21.d \
 Device_Startup/system_samc21.d \
 driver_init.d \
@@ -250,7 +259,8 @@ hpl/oscctrl/hpl_oscctrl.d \
 hpl/pm/hpl_pm.d \
 hpl/sercom/hpl_sercom.d \
 hpl/tsens/hpl_tsens.d \
-main.d
+main.d \
+usart_serial.d
 
 OUTPUT_FILE_PATH +=LV_BMS.elf
 
@@ -269,6 +279,13 @@ LINKER_SCRIPT_DEP+=  \
 
 # AVR32/GNU C Compiler
 ./atmel_start.o: .././atmel_start.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAMC21G18A__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include" -I"../Config" -I".." -I"../examples" -I"../hal/include" -I"../hal/utils/include" -I"../hpl/adc" -I"../hpl/can" -I"../hpl/core" -I"../hpl/divas" -I"../hpl/dmac" -I"../hpl/gclk" -I"../hpl/mclk" -I"../hpl/osc32kctrl" -I"../hpl/oscctrl" -I"../hpl/pm" -I"../hpl/port" -I"../hpl/sercom" -I"../hpl/tsens" -I"../hri" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\SAMC21_DFP\1.2.176\samc21\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m0plus -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./usart_handler.o: .././usart_handler.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAMC21G18A__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include" -I"../Config" -I".." -I"../examples" -I"../hal/include" -I"../hal/utils/include" -I"../hpl/adc" -I"../hpl/can" -I"../hpl/core" -I"../hpl/divas" -I"../hpl/dmac" -I"../hpl/gclk" -I"../hpl/mclk" -I"../hpl/osc32kctrl" -I"../hpl/oscctrl" -I"../hpl/pm" -I"../hpl/port" -I"../hpl/sercom" -I"../hpl/tsens" -I"../hri" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\SAMC21_DFP\1.2.176\samc21\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m0plus -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
@@ -507,6 +524,13 @@ hpl/tsens/hpl_tsens.o: ../hpl/tsens/hpl_tsens.c
 	
 
 ./main.o: .././main.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAMC21G18A__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include" -I"../Config" -I".." -I"../examples" -I"../hal/include" -I"../hal/utils/include" -I"../hpl/adc" -I"../hpl/can" -I"../hpl/core" -I"../hpl/divas" -I"../hpl/dmac" -I"../hpl/gclk" -I"../hpl/mclk" -I"../hpl/osc32kctrl" -I"../hpl/oscctrl" -I"../hpl/pm" -I"../hpl/port" -I"../hpl/sercom" -I"../hpl/tsens" -I"../hri" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\SAMC21_DFP\1.2.176\samc21\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m0plus -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./usart_serial.o: .././usart_serial.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAMC21G18A__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include" -I"../Config" -I".." -I"../examples" -I"../hal/include" -I"../hal/utils/include" -I"../hpl/adc" -I"../hpl/can" -I"../hpl/core" -I"../hpl/divas" -I"../hpl/dmac" -I"../hpl/gclk" -I"../hpl/mclk" -I"../hpl/osc32kctrl" -I"../hpl/oscctrl" -I"../hpl/pm" -I"../hpl/port" -I"../hpl/sercom" -I"../hpl/tsens" -I"../hri" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\SAMC21_DFP\1.2.176\samc21\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m0plus -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

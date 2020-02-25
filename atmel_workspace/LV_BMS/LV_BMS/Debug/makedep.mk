@@ -4,6 +4,8 @@
 
 atmel_start.c
 
+usart_handler.c
+
 Device_Startup\startup_samc21.c
 
 Device_Startup\system_samc21.c
@@ -71,4 +73,6 @@ hpl\sercom\hpl_sercom.c
 hpl\tsens\hpl_tsens.c
 
 main.c
+
+usart_serial.c
 

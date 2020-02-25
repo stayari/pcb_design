@@ -1,5 +1,5 @@
-main.d main.o: .././main.c ../atmel_start.h ../driver_init.h \
- ../atmel_start_pins.h ../hal/include/hal_gpio.h \
+usart_serial.d usart_serial.o: .././usart_serial.c ../atmel_start.h \
+ ../driver_init.h ../atmel_start_pins.h ../hal/include/hal_gpio.h \
  ../hal/include/hpl_gpio.h ../hal/utils/include/compiler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\lib\gcc\arm-none-eabi\6.3.1\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\lib\gcc\arm-none-eabi\6.3.1\include\stdint.h \
@@ -124,8 +124,7 @@ main.d main.o: .././main.c ../atmel_start.h ../driver_init.h \
  ../hal/utils/include/utils_ringbuffer.h ../hal/utils/include/compiler.h \
  ../hal/utils/include/utils_assert.h ../hal/include/hal_can_async.h \
  ../hal/include/hpl_can.h ../hal/include/hpl_can_async.h \
- ../hal/include/hal_temp_sync.h ../hal/include/hpl_temp_sync.h \
- ../usart_serial.h
+ ../hal/include/hal_temp_sync.h ../hal/include/hpl_temp_sync.h
 
 ../atmel_start.h:
 
@@ -464,5 +463,3 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\Atmel\SAMC21_DFP\1.2.176\samc21\
 ../hal/include/hal_temp_sync.h:
 
 ../hal/include/hpl_temp_sync.h:
-
-../usart_serial.h:

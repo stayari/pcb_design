@@ -443,6 +443,9 @@
     <Compile Include="atmel_start_pins.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="usart_handler.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="config\hpl_adc_config.h">
       <SubType>compile</SubType>
     </Compile>
@@ -876,6 +879,15 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usart_handler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usart_serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="usart_serial.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
