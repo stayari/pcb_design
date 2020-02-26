@@ -23,4 +23,4 @@ void usart_return(uint8_t *rx[], uint8_t *tx[]);
 //sends the string
 void usart_send(uint8_t *str1);
 
-#endif /* USART_HANDLER_H_ */1
+#endif /* USART_HANDLER_H_ */

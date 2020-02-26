@@ -1,8 +1,11 @@
 #include <atmel_start.h>
 #include <usart_serial.h>
 #include <usart_handler.h>
+#include "driver_examples.h"
+#include "driver_init.h"
+#include "utils.h"
 
-
+int okok;
 int main(void)
 {
 	
@@ -11,12 +14,15 @@ int main(void)
 	uart_init();
 	gpio_set_pin_level(relay_signal, true);
 
-
+	okok = 1;
+	//ADC
+	adc_sync_enable_channel(&ADC_0, 0);
+	
 	/* Replace with your application code */
 	while (1)
 	{
-
-		
+		okok = 1;
+	 
 		if(serial_receiving == 1)
 		{
 			if(serial_complete == 1)

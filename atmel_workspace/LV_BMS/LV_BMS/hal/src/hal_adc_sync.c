@@ -118,6 +118,7 @@ int32_t adc_sync_read_channel(struct adc_sync_descriptor *const descr, const uin
 		}
 		offset += data_size;
 	} while (offset < length);
+	
 
 	return offset;
 }
