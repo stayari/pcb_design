@@ -16,7 +16,7 @@ volatile uint8_t total_bytes = 0;
 
 // RX and TX buffers
 volatile uint8_t rx_buffer[SERIAL_BUF_SIZE] = { 0x00 };
-volatile uint8_t tx_buffer[SERIAL_BUF_SIZE + 14] = "Your message : ";
+volatile uint8_t tx_buffer[SERIAL_BUF_SIZE + 18] = "\r\nYour message : ";
 
 
 static void serial_rx_cb(const struct usart_async_descriptor *const io_descr)

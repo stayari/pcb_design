@@ -13,7 +13,8 @@ int main(void)
 
 
 	/* Replace with your application code */
-	while (1) {
+	while (1)
+	{
 
 		
 		if(serial_receiving == 1)
@@ -21,8 +22,6 @@ int main(void)
 			if(serial_complete == 1)
 			{
 				usart_done();
-				
-				
 			}
 		}
 	}

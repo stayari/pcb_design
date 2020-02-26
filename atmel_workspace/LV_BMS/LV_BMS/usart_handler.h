@@ -15,5 +15,12 @@
 void usart_done(void);
 
 //String arrays initialization used in the usart handler function
-void usart_strings_init(void);
-#endif /* USART_HANDLER_H_ */
+//void usart_strings_init(void);
+
+//return the same string that was recived
+void usart_return(uint8_t *rx[], uint8_t *tx[]);
+
+//sends the string
+void usart_send(uint8_t *str1);
+
+#endif /* USART_HANDLER_H_ */1
