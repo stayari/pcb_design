@@ -12,22 +12,28 @@
 #include <stdio.h>
 
 
-int adc_buffer[2] = {0, 0};
-unsigned int res = 0;
-int sign_res = 0;
+uint8_t adc_buffer[2] = {0, 0};
+uint16_t res = 0;
+uint8_t sign_res = 0;
 
 
 
-unsigned int thou = 0;
-unsigned int hund = 0;
-unsigned int tens = 0;
-unsigned int ones = 0;
-unsigned int temp[2] = {0, 0};
-unsigned int adc_res[4] = {0, 0, 0, 0};
-unsigned int adc_rest[4] = {0, 0, 0, 0};
+uint8_t thou = 0;
+uint8_t hund = 0;
+uint8_t tens = 0;
+uint8_t ones = 0;
+uint8_t temp[2] = {0, 0};
+uint8_t adc_res[4] = {0, 0, 0, 0};
+uint8_t adc_rest[4] = {0, 0, 0, 0};
 char res_string;
 
+void usart_done(void);
+void usart_return(uint8_t rx[], uint8_t tx[]);
+void usart_send(uint8_t *str1);
 
+
+
+// Handles the usart command
 void usart_done(void)
 {
 	
@@ -36,50 +42,68 @@ void usart_done(void)
 		usart_send("Relay ON");
 		delay_ms(50);
 		usart_send("Relay test");
-		
 	}
 	
-	else if(rx_buffer[0] == 'o' && rx_buffer[1] == 'f' && rx_buffer[2] =='f'){
+	else if(rx_buffer[0] == 'o' && rx_buffer[1] == 'f' && rx_buffer[2] =='f')
+	{
 		gpio_set_pin_level(relay_signal, false);
 		usart_send("LED OFF");
 		
 	 }
 	 
-	 else if (rx_buffer[0] == 'a' && rx_buffer[1] == 'd' && rx_buffer[2] =='c'){
-		 
+	 else if (rx_buffer[0] == 'a' && rx_buffer[1] == 'd' && rx_buffer[2] =='c')
+	 {
 		 gpio_set_pin_level(led_1, true);
 		// usart_send(" ADC value is:");
 		// delay_ms(50);
 		 //usart_send("1GA");
 		 usart_return(rx_buffer[1], tx_buffer);
 	 }
-	 else if (rx_buffer[0] == 't' && rx_buffer[1] == 'e' && rx_buffer[2] =='s'){
+	 else if (rx_buffer[0] == 't' && rx_buffer[1] == 'e' && rx_buffer[2] =='s')
+	 {
 		 
 		 gpio_set_pin_level(led_1, true);
-	
 		 usart_send(rx_buffer);
 	 }
-	 else if (rx_buffer[0] == '1'){
-		 
-		
+	 else if (rx_buffer[0] == '1')
+	 {
 		adc_sync_read_channel(&ADC_0, 0, adc_buffer, 2);
-		
 		//usart_send(adc_buffer);
-		
 		temp[1] = adc_buffer[1];
 		temp[0] = adc_buffer[0];
-		
 		res = (temp[1] << 8) | temp[0];
-		
 		usart_send(res);
 	 }
+	  else if (rx_buffer[0] == '2')
+	 {
+		adc_sync_read_channel(&ADC_0, 0, adc_buffer, 2);
+		//usart_send(adc_buffer);
+		temp[1] = adc_buffer[1];
+		temp[0] = adc_buffer[0];
+		res = (temp[1] << 8) | temp[0];
+		
+		thou = res / 1000 % 10;
+		hund = res / 100  % 10;
+		tens = res / 10   % 10;
+		ones = res % 10;
+
+		adc_rest[0] = thou + 48;
+		adc_rest[1] = hund + 48;
+		adc_rest[2] = tens + 48;
+		adc_rest[3] = ones + 48;
+		
+		usart_return(adc_rest, tx_buffer);
+		
+	 }
 	 
-	 else{
+	 
+	 
+	 
+	 
+	 else
+	 {	 
 		 //send back
 		 usart_send("Error: No such command");
-		 //delay_ms(50);
-		 //usart_return(rx_buffer, tx_buffer);
-	 
 	 }
 		//reset flags
 	 	serial_receiving = 0;
@@ -89,14 +113,13 @@ void usart_done(void)
 //sends an the rx array on usart
 void usart_return(uint8_t rx[], uint8_t tx[])
 {
-	
 		//copy message to tx buffer
 		memcpy(&tx[17], &rx[0], SERIAL_BUF_SIZE);
 
-		
 		//print
-		io_write(&USART_0.io, tx, strlen(rx) + 16);
+		io_write(&USART_0.io, tx, strlen(rx) + 17);
 		//io_write(&USART_0.io, msg, total_bytes + 16);
+		
 		//clear memory
 		memset(&rx, 0x00, SERIAL_BUF_SIZE);
 	
@@ -105,14 +128,14 @@ void usart_return(uint8_t rx[], uint8_t tx[])
 //sends a the string on usart (might work with arrays aswell)
 void usart_send(uint8_t *str1)
 {
-
-	
-	
+	//Copy the string to the tx_buffer, so that it can be sent using io_write
 	memcpy(&tx_buffer[17], &str1[0], SERIAL_BUF_SIZE);
-	//print
+	
+	//print to the serialcom port
 	io_write(&USART_0.io, tx_buffer, (17  + strlen(str1)));
 	//io_write(&USART_0.io, msg, total_bytes + 16);
-	//clear memory
+	
+	//clear memory, so that there is a clean buffer for next message
 	memset(&rx_buffer, 0x00, SERIAL_BUF_SIZE);
 	
 }
@@ -145,7 +168,7 @@ void usart_send(uint8_t *str1)
 //
 // 		adc_rest[3] = thou + 48;
 // 		adc_rest[2] = hund + 48;
-// 		adc_rest[1] = 48;
+// 		adc_rest[1] = tens + 48;
 // 		adc_rest[0] = ones + 48;
 //
 // 		usart_send(res_string);
