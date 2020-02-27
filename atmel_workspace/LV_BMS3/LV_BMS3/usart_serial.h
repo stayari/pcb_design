@@ -22,9 +22,9 @@ volatile uint8_t tx_buffer[SERIAL_BUF_SIZE + 18];
 
 
 
-static void serial_rx_cb(const struct usart_async_descriptor *const io_descr);
+void serial_rx_cb(const struct usart_async_descriptor *const io_descr);
 
-static void serial_tx_cb(const struct usart_async_descriptor *const io_descr);
+void serial_tx_cb(const struct usart_async_descriptor *const io_descr);
 
 void uart_init();
 

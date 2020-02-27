@@ -30,7 +30,7 @@ char res_string;
 void usart_done(void);
 void usart_return(uint8_t rx[], uint8_t tx[]);
 void usart_send(uint8_t *str1);
-
+uint8_t relay_on[] = "Relay ON";
 
 
 // Handles the usart command
@@ -39,7 +39,7 @@ void usart_done(void)
 	
 	if(rx_buffer[0] == 'o' && rx_buffer[1] == 'n'){
 		gpio_set_pin_level(relay_signal, true);
-		usart_send("Relay ON");
+		usart_send(relay_on);
 		delay_ms(50);
 		usart_send("Relay test");
 	}
@@ -47,7 +47,7 @@ void usart_done(void)
 	else if(rx_buffer[0] == 'o' && rx_buffer[1] == 'f' && rx_buffer[2] =='f')
 	{
 		gpio_set_pin_level(relay_signal, false);
-		usart_send("LED OFF");
+	//	usart_send("LED OFF");
 		
 	 }
 	 
@@ -57,13 +57,13 @@ void usart_done(void)
 		// usart_send(" ADC value is:");
 		// delay_ms(50);
 		 //usart_send("1GA");
-		 usart_return(rx_buffer[1], tx_buffer);
+		 usart_return(&rx_buffer[1], tx_buffer);
 	 }
 	 else if (rx_buffer[0] == 't' && rx_buffer[1] == 'e' && rx_buffer[2] =='s')
 	 {
 		 
 		 gpio_set_pin_level(led_1, true);
-		 usart_send(rx_buffer);
+	//	 usart_send(rx_buffer);
 	 }
 	 else if (rx_buffer[0] == '1')
 	 {
@@ -72,7 +72,7 @@ void usart_done(void)
 		temp[1] = adc_buffer[1];
 		temp[0] = adc_buffer[0];
 		res = (temp[1] << 8) | temp[0];
-		usart_send(res);
+	//	usart_send(res);
 	 }
 	  else if (rx_buffer[0] == '2')
 	 {
