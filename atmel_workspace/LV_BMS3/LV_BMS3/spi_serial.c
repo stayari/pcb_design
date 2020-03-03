@@ -11,11 +11,20 @@
 
 void SPI_test(void)
 {
+
+	static uint8_t example_SPI_0[4] = {0b11011111, 0b0, 0b11111111, 0b0};
 	
-	static uint8_t example_SPI_0[12] = "1111111111111";
 	struct io_descriptor *spi_io;
 	spi_m_sync_get_io_descriptor(&SPI_0, &spi_io);
 
 	spi_m_sync_enable(&SPI_0);
-	io_write(spi_io, example_SPI_0, 12);
+		
+		
+	gpio_set_pin_level(spi_cs, false);
+	io_write(spi_io, example_SPI_0, 4);
+	gpio_set_pin_level(spi_cs, true);	
+		
+		
+		
+		
 }

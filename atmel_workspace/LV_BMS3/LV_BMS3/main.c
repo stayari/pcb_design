@@ -17,7 +17,9 @@ int main(void)
 
 	//ADC
 	adc_sync_enable_channel(&ADC_0, 0);
-	
+	gpio_set_pin_level(spi_cs, true);
+	//spi
+
 	
 	/* Replace with your application code */
 	while (1) {

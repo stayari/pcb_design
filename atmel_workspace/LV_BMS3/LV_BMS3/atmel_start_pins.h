@@ -25,6 +25,7 @@
 #define v_sense GPIO(GPIO_PORTA, 2)
 #define relay_signal GPIO(GPIO_PORTA, 5)
 #define spi_miso GPIO(GPIO_PORTA, 8)
+#define spi_cs GPIO(GPIO_PORTA, 9)
 #define spi_mosi GPIO(GPIO_PORTA, 10)
 #define spi_sck GPIO(GPIO_PORTA, 11)
 #define can_tx GPIO(GPIO_PORTA, 24)

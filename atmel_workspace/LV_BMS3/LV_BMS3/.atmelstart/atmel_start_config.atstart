@@ -820,6 +820,12 @@ pads:
     mode: Digital input
     user_label: spi_miso
     configuration: null
+  spi_cs:
+    name: PA09
+    definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21G18A-MN::pad::PA09
+    mode: Digital output
+    user_label: spi_cs
+    configuration: null
   spi_mosi:
     name: PA10
     definition: Atmel:SAMC21_Drivers:0.0.1::SAMC21G18A-MN::pad::PA10

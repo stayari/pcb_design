@@ -49,29 +49,28 @@ void usart_done(void)
 		usart_send("Relay test");
 	}
 	
-	else if(rx_buffer[0] == 'o' && rx_buffer[1] == 'f' && rx_buffer[2] =='f')
-	{
+	else if(rx_buffer[0] == 'o' && rx_buffer[1] == 'f' && rx_buffer[2] =='f'){
+		
 		gpio_set_pin_level(relay_signal, false);
 	//	usart_send("LED OFF");
 		
 	 }
 	 
-	 else if (rx_buffer[0] == 'a' && rx_buffer[1] == 'd' && rx_buffer[2] =='c')
-	 {
+	 else if (rx_buffer[0] == 'a' && rx_buffer[1] == 'd' && rx_buffer[2] =='c'){
+		 
 		 gpio_set_pin_level(led_1, true);
 		// usart_send(" ADC value is:");
 		// delay_ms(50);
 		 //usart_send("1GA");
 		 usart_return(&rx_buffer[1], tx_buffer);
 	 }
-	 else if (rx_buffer[0] == 't' && rx_buffer[1] == 'e' && rx_buffer[2] =='s')
-	 {
+	 else if (rx_buffer[0] == 't' && rx_buffer[1] == 'e' && rx_buffer[2] =='s'){
 		 
 		 gpio_set_pin_level(led_1, true);
 	//	 usart_send(rx_buffer);
 	 }
-	 else if (rx_buffer[0] == '1')
-	 {
+	 else if (rx_buffer[0] == '1'){
+		 
 		adc_sync_read_channel(&ADC_0, 0, adc_buffer, 2);
 		//usart_send(adc_buffer);
 		temp[1] = adc_buffer[1];
@@ -79,8 +78,8 @@ void usart_done(void)
 		res = (temp[1] << 8) | temp[0];
 	//	usart_send(res);
 	 }
-	  else if (rx_buffer[0] == '2')
-	 {
+	  else if (rx_buffer[0] == '2'){
+		  
 		adc_sync_read_channel(&ADC_0, 0, adc_buffer, 2);
 		//usart_send(adc_buffer);
 		temp[1] = adc_buffer[1];
@@ -100,8 +99,8 @@ void usart_done(void)
 		usart_return(adc_rest, tx_buffer);
 		
 	 }
-	 else if (rx_buffer[0] == '3')
-	 {
+	 else if (rx_buffer[0] == '3'){
+		 
 		adc_sync_read_channel(&ADC_0, 0, adc_buffer, 2);
 		//usart_send(adc_buffer);
 		temp[1] = adc_buffer[1];
@@ -110,14 +109,23 @@ void usart_done(void)
 		   
 		res2 = (float) res / 840;
 		gcvt(res2, 6, buf);
-		buf[6] = 'V';
+		buf[7] = 'V';
+		
 		usart_return(buf, tx_buffer);
+		
 	 }
 	 else if(rx_buffer[0] == '4'){
 		 SPI_test();
 	 }
-	 else
-	 {	 
+	 
+	 else if (rx_buffer[0] == '5'){
+		  gpio_set_pin_level(spi_cs, true);
+	 }
+	  
+	 else if (rx_buffer[0] == '6'){
+		  gpio_set_pin_level(spi_cs, false);
+	 }
+	 else{	 
 		 //send back
 		 usart_send("Error: No such command");
 	 }
@@ -138,7 +146,8 @@ void usart_return(uint8_t rx[], uint8_t tx[])
 		
 		//clear memory
 		memset(&rx, 0x00, SERIAL_BUF_SIZE);
-	
+		memset(&tx, 0x00, SERIAL_BUF_SIZE+18);
+		
 }
 
 //sends a the string on usart (might work with arrays aswell)

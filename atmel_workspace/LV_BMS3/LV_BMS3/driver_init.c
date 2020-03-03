@@ -192,6 +192,20 @@ void system_init(void)
 
 	gpio_set_pin_function(relay_signal, GPIO_PIN_FUNCTION_OFF);
 
+	// GPIO on PA09
+
+	gpio_set_pin_level(spi_cs,
+	                   // <y> Initial level
+	                   // <id> pad_initial_level
+	                   // <false"> Low
+	                   // <true"> High
+	                   false);
+
+	// Set pin direction to output
+	gpio_set_pin_direction(spi_cs, GPIO_DIRECTION_OUT);
+
+	gpio_set_pin_function(spi_cs, GPIO_PIN_FUNCTION_OFF);
+
 	// GPIO on PA27
 
 	gpio_set_pin_level(led_3,
