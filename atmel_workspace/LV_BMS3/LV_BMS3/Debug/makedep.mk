@@ -72,6 +72,8 @@ hpl\tsens\hpl_tsens.c
 
 main.c
 
+spi_serial.c
+
 usart_handler.c
 
 usart_serial.c

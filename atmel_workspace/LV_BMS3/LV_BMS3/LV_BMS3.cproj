@@ -878,6 +878,12 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="spi_serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="spi_serial.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="usart_handler.c">
       <SubType>compile</SubType>
     </Compile>

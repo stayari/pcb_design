@@ -96,6 +96,7 @@ C_SRCS +=  \
 ../hpl/sercom/hpl_sercom.c \
 ../hpl/tsens/hpl_tsens.c \
 ../main.c \
+../spi_serial.c \
 ../usart_handler.c \
 ../usart_serial.c
 
@@ -142,6 +143,7 @@ hpl/pm/hpl_pm.o \
 hpl/sercom/hpl_sercom.o \
 hpl/tsens/hpl_tsens.o \
 main.o \
+spi_serial.o \
 usart_handler.o \
 usart_serial.o
 
@@ -181,6 +183,7 @@ hpl/pm/hpl_pm.o \
 hpl/sercom/hpl_sercom.o \
 hpl/tsens/hpl_tsens.o \
 main.o \
+spi_serial.o \
 usart_handler.o \
 usart_serial.o
 
@@ -220,6 +223,7 @@ hpl/pm/hpl_pm.d \
 hpl/sercom/hpl_sercom.d \
 hpl/tsens/hpl_tsens.d \
 main.d \
+spi_serial.d \
 usart_handler.d \
 usart_serial.d
 
@@ -259,6 +263,7 @@ hpl/pm/hpl_pm.d \
 hpl/sercom/hpl_sercom.d \
 hpl/tsens/hpl_tsens.d \
 main.d \
+spi_serial.d \
 usart_handler.d \
 usart_serial.d
 
@@ -517,6 +522,13 @@ hpl/tsens/hpl_tsens.o: ../hpl/tsens/hpl_tsens.c
 	
 
 ./main.o: .././main.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAMC21G18A__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include" -I"../Config" -I".." -I"../examples" -I"../hal/include" -I"../hal/utils/include" -I"../hpl/adc" -I"../hpl/can" -I"../hpl/core" -I"../hpl/divas" -I"../hpl/dmac" -I"../hpl/gclk" -I"../hpl/mclk" -I"../hpl/osc32kctrl" -I"../hpl/oscctrl" -I"../hpl/pm" -I"../hpl/port" -I"../hpl/sercom" -I"../hpl/tsens" -I"../hri" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\SAMC21_DFP\1.2.176\samc21\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m0plus -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./spi_serial.o: .././spi_serial.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAMC21G18A__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include" -I"../Config" -I".." -I"../examples" -I"../hal/include" -I"../hal/utils/include" -I"../hpl/adc" -I"../hpl/can" -I"../hpl/core" -I"../hpl/divas" -I"../hpl/dmac" -I"../hpl/gclk" -I"../hpl/mclk" -I"../hpl/osc32kctrl" -I"../hpl/oscctrl" -I"../hpl/pm" -I"../hpl/port" -I"../hpl/sercom" -I"../hpl/tsens" -I"../hri" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\Atmel\SAMC21_DFP\1.2.176\samc21\include"  -O1 -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m0plus -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

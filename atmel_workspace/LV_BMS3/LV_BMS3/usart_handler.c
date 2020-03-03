@@ -10,7 +10,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdio.h>
-
+#include <spi_serial.h>
 
 uint8_t adc_buffer[2] = {0, 0};
 uint16_t res = 0;
@@ -19,7 +19,7 @@ uint16_t res3 =0;
 uint8_t sign_res = 0;
 
 uint8_t res_array[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-char buf[6] = {0, 0, 0, 0, 0, 0}; 
+char buf[7] = {0, 0, 0, 0, 0, 0, 0}; 
 
 
 uint8_t thou = 0;
@@ -102,40 +102,19 @@ void usart_done(void)
 	 }
 	 else if (rx_buffer[0] == '3')
 	 {
-		   adc_sync_read_channel(&ADC_0, 0, adc_buffer, 2);
-		   //usart_send(adc_buffer);
-		   temp[1] = adc_buffer[1];
-		   temp[0] = adc_buffer[0];
-		   res = (temp[1] << 8) | temp[0];
+		adc_sync_read_channel(&ADC_0, 0, adc_buffer, 2);
+		//usart_send(adc_buffer);
+		temp[1] = adc_buffer[1];
+		temp[0] = adc_buffer[0];
+		res = (temp[1] << 8) | temp[0];
 		   
-		   res2 = (float) res / 840;
-		   res3 = (uint16_t) res2;
-		   
-		   memcpy(res_array, &res2, 8);
-
-  
-			 gcvt(res2, 6, buf);
-		   
-		   
-		   thou = res / 1000 % 10;
-		   hund = res / 100  % 10;
-		   tens = res / 10   % 10;
-		   ones = res % 10;
-
-		   adc_rest[0] = thou + 48;
-		   adc_rest[1] = hund + 48;
-		   adc_rest[2] = tens + 48;
-		   adc_rest[3] = ones + 48;
-		   
-		   adc_rest[4] = 86;
-		   
-		   
-		   usart_return(buf, tx_buffer);
-	 
-	 
-	 
-	 
-	 
+		res2 = (float) res / 840;
+		gcvt(res2, 6, buf);
+		buf[6] = 'V';
+		usart_return(buf, tx_buffer);
+	 }
+	 else if(rx_buffer[0] == '4'){
+		 SPI_test();
 	 }
 	 else
 	 {	 
