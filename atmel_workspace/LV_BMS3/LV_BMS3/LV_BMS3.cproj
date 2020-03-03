@@ -878,6 +878,9 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="spi_pec.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="spi_serial.c">
       <SubType>compile</SubType>
     </Compile>

@@ -115,7 +115,9 @@ void usart_done(void)
 		
 	 }
 	 else if(rx_buffer[0] == '4'){
-		 SPI_test();
+		 uint8_t temp_int[2] = {0b00000101, 0b01100000};
+
+		 cmd_68(temp_int);
 	 }
 	 
 	 else if (rx_buffer[0] == '5'){
@@ -125,6 +127,17 @@ void usart_done(void)
 	 else if (rx_buffer[0] == '6'){
 		  gpio_set_pin_level(spi_cs, false);
 	 }
+	 
+	 
+	  else if (rx_buffer[0] == '7'){
+		 // Mode, Discharge mode, Cells to be monitored 
+		 LTC681x_adcv(0b10,0b0,0b000);
+	 }
+	 else if (rx_buffer[0] == '8'){
+		 //Mode, GPIOs to be monitored
+		 LTC681x_adax(0b10, 0b000 );
+	 }
+	  
 	 else{	 
 		 //send back
 		 usart_send("Error: No such command");

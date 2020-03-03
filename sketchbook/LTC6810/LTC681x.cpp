@@ -136,6 +136,10 @@ void write_68(uint8_t total_ic, //Number of ICs to be written to
 	free(cmd);
 }
 
+
+
+
+
 /* Generic function to write 68xx commands and read data. Function calculated PEC for tx_cmd data */
 int8_t read_68( uint8_t total_ic, // Number of ICs in the system 
 				uint8_t tx_cmd[2], // The command to be transmitted 

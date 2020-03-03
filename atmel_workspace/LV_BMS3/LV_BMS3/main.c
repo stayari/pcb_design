@@ -4,6 +4,7 @@
 #include "driver_examples.h"
 #include "driver_init.h"
 #include "utils.h"
+#include "spi_serial.h"
 
 
 
@@ -19,7 +20,7 @@ int main(void)
 	adc_sync_enable_channel(&ADC_0, 0);
 	gpio_set_pin_level(spi_cs, true);
 	//spi
-
+	spi_init();
 	
 	/* Replace with your application code */
 	while (1) {
