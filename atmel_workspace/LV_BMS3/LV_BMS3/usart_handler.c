@@ -125,7 +125,11 @@ void usart_done(void)
 	 }
 	  
 	 else if (rx_buffer[0] == '6'){
-		  gpio_set_pin_level(spi_cs, false);
+		  //gpio_set_pin_level(spi_cs, false);
+		  //LTC681x_adax(0b10, 0b000 );
+
+		  LTC681x_adstat(0b10, 0b000);
+
 	 }
 	 
 	 
@@ -135,7 +139,7 @@ void usart_done(void)
 	 }
 	 else if (rx_buffer[0] == '8'){
 		 //Mode, GPIOs to be monitored
-		 LTC681x_adax(0b10, 0b000 );
+		 LTC681x_adax(0b00, 0b000 );
 	 }
 	  
 	 else{	 

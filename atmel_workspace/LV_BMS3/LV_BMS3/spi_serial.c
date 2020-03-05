@@ -16,6 +16,7 @@
 
 
 
+
 void spi_init(void)
 {
 
@@ -111,6 +112,20 @@ uint8_t CH //Cell Channels to be measured
 	gpio_set_pin_level(led_1, true);
 	cmd_68(cmd);
 }
+// want to send 1010 1101000
+void LTC681x_adstat(uint8_t MD,
+					uint8_t CHG)
+{
+	uint8_t cmd[2];
+	uint8_t md_bits;
+
+	md_bits = (MD & 0x02) >> 1;
+	cmd[0] = md_bits + 0x08;
+	md_bits = (MD & 0x01) << 7;
+	cmd[1] = md_bits + 0xD0 + CHG ;
+
+	cmd_68(cmd);		
+}
 
 void cmd_68(uint8_t tx_cmd[2]) //The command to be transmitted
 {
@@ -127,6 +142,7 @@ void cmd_68(uint8_t tx_cmd[2]) //The command to be transmitted
 	
 	gpio_set_pin_level(spi_cs, false);
 	io_write(spi_io, cmd, 4);
+	delay_us(2000);
 	gpio_set_pin_level(spi_cs, true);
 	
 	
