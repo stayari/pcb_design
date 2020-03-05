@@ -167,3 +167,18 @@ uint8_t CHG //GPIO Channels to be measured
 	
 	cmd_68(cmd);
 }
+
+// void LTC6810_init_reg_limits(uint8_t total_ic, // Number of ICs in the system
+//cell_asic *ic // A two dimensional array that stores the data
+//)
+// {
+// 	for(uint8_t cic=0; cic<total_ic; cic++)
+// 	{
+// 		ic[cic].ic_reg.cell_channels=6;
+// 		ic[cic].ic_reg.stat_channels=4;
+// 		ic[cic].ic_reg.aux_channels=6;
+// 		ic[cic].ic_reg.num_cv_reg=2;
+// 		ic[cic].ic_reg.num_gpio_reg=2;
+// 		ic[cic].ic_reg.num_stat_reg=3;
+// 	}
+// }
