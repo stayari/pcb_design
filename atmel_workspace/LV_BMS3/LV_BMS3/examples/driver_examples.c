@@ -36,6 +36,7 @@ void SPI_0_example(void)
 
 	spi_m_sync_enable(&SPI_0);
 	io_write(io, example_SPI_0, 12);
+	
 }
 
 /**

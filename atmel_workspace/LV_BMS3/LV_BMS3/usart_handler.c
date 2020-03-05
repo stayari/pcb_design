@@ -121,11 +121,49 @@ void usart_done(void)
 	 }
 	 
 	 else if (rx_buffer[0] == '5'){
-		  gpio_set_pin_level(spi_cs, true);
+		 LTC681x_rdaux_reg(1,1);
+		 delay_ms(1);
+		 LTC681x_adax(0b10, 0b000 );
+		 delay_ms(1);
+		 LTC681x_adcv(0b10,0b0,0b000);
+		 delay_ms(1);
+		 LTC681x_rdaux_reg(1,1);
+		 delay_ms(1);
+		 LTC681x_adstat(0b10,000);
+		 delay_ms(1);
+		 LTC681x_rdaux_reg(2,1);
+		 delay_ms(1);
+		  LTC681x_rdaux_reg(1,1);
+		  delay_ms(1);
+		  LTC681x_adax(0b10, 0b000);
+		  delay_ms(1);
+		  LTC681x_adstat(0b10,000);
+		  LTC681x_adcv(0b10,0b0,0b000);
+		  LTC681x_rdaux_reg(1,1);
+		  LTC681x_rdaux_reg(2,1);
+		  delay_ms(1);
+		  LTC681x_rdaux_reg(1,1);
+		  LTC681x_adax(0b1, 0b000 );
+		  LTC681x_adcv(0b11,0b1,0b000);
+		  delay_ms(0.5);
+		  LTC681x_adax(0b00, 0b000 );
+		  LTC681x_adcv(0b10,0b0,0b010);
+		  LTC681x_adax(0b10, 0b000 );
+		  LTC681x_adcv(0b10,0b0,0b001);
+		  LTC681x_adstat(0b10,000);
+		  delay_ms(1);
+		  LTC681x_adax(0b10, 0b000 );
+		  LTC681x_adstat(0b10,000);
+		  LTC681x_adcv(0b10,0b0,0b000);
+		  LTC681x_adstat(0b10,000);
+		  LTC681x_rdaux_reg(1,1);
+		  delay_ms(1);
+		  LTC681x_adstat(0b10,000);
+		  LTC681x_rdaux_reg(2,1);
+		 delay_ms(1);
 	 }
 	  
 	 else if (rx_buffer[0] == '6'){
-//		  cell_asic test();
 	 }
 	 
 	 

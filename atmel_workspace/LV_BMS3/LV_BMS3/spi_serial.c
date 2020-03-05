@@ -117,21 +117,21 @@ void cmd_68(uint8_t tx_cmd[2]) //The command to be transmitted
 	uint8_t cmd[4];
 	uint16_t cmd_pec;
 	uint8_t md_bits;
-	gpio_set_pin_level(led_2, true);
+	//gpio_set_pin_level(led_2, true);
 	cmd[0] = tx_cmd[0];
 	cmd[1] =  tx_cmd[1];
 	cmd_pec = pec15_calc(2, cmd);
 	cmd[2] = (uint8_t)(cmd_pec >> 8);
 	cmd[3] = (uint8_t)(cmd_pec);
-	gpio_set_pin_level(led_3, true);
+	//gpio_set_pin_level(led_3, true);
 	
 	gpio_set_pin_level(spi_cs, false);
 	io_write(spi_io, cmd, 4);
+	delay_us(250);
 	gpio_set_pin_level(spi_cs, true);
 	
 	
 }
-
 
 uint16_t pec15_calc(uint8_t len, //Number of bytes that will be used to calculate a PEC
 uint8_t *data //Array of data that will be used to calculate  a PEC
@@ -168,17 +168,126 @@ uint8_t CHG //GPIO Channels to be measured
 	cmd_68(cmd);
 }
 
-// void LTC6810_init_reg_limits(uint8_t total_ic, // Number of ICs in the system
-//cell_asic *ic // A two dimensional array that stores the data
-//)
-// {
-// 	for(uint8_t cic=0; cic<total_ic; cic++)
-// 	{
-// 		ic[cic].ic_reg.cell_channels=6;
-// 		ic[cic].ic_reg.stat_channels=4;
-// 		ic[cic].ic_reg.aux_channels=6;
-// 		ic[cic].ic_reg.num_cv_reg=2;
-// 		ic[cic].ic_reg.num_gpio_reg=2;
-// 		ic[cic].ic_reg.num_stat_reg=3;
-// 	}
-// }
+
+/* Start ADC Conversion for Status  */
+void LTC681x_adstat(uint8_t MD, //ADC Mode
+uint8_t CHST //Stat Channels to be measured
+)
+{
+	uint8_t cmd[4];
+	uint8_t md_bits;
+	
+	md_bits = (MD & 0x02) >> 1;
+	cmd[0] = md_bits + 0x04;
+	md_bits = (MD & 0x01) << 7;
+	cmd[1] = md_bits + 0x68 + CHST ;
+	
+	cmd_68(cmd);
+}
+
+
+
+/*
+The function reads a single GPIO voltage register and stores the read data
+in the *data point as a byte array. This function is rarely used outside of
+the LTC681x_rdaux() command.
+*/
+void LTC681x_rdaux_reg(uint8_t reg, //Determines which GPIO voltage register is read back
+uint8_t total_ic //The number of ICs in the system
+)
+{
+	const uint8_t REG_LEN = 8; // Number of bytes in the register + 2 bytes for the PEC
+	uint8_t cmd[4];
+	uint16_t cmd_pec;
+
+	if (reg == 1)     //Read back auxiliary group A
+	{
+		cmd[1] = 0x0C;
+		cmd[0] = 0x00;
+	}
+	else if (reg == 2)  //Read back auxiliary group B
+	{
+		cmd[1] = 0x0E;
+		cmd[0] = 0x00;
+	}
+	else if (reg == 3)  //Read back auxiliary group C
+	{
+		cmd[1] = 0x0D;
+		cmd[0] = 0x00;
+	}
+	else if (reg == 4)  //Read back auxiliary group D
+	{
+		cmd[1] = 0x0F;
+		cmd[0] = 0x00;
+	}
+	else          //Read back auxiliary group A
+	{
+		cmd[1] = 0x0C;
+		cmd[0] = 0x00;
+	}
+
+	cmd_pec = pec15_calc(2, cmd);
+	cmd[2] = (uint8_t)(cmd_pec >> 8);
+	cmd[3] = (uint8_t)(cmd_pec);
+
+	gpio_set_pin_level(spi_cs, false);
+	cmd_68(cmd);
+	//spi_write_read(cmd,4,data,(REG_LEN*total_ic));
+	gpio_set_pin_level(spi_cs, true);
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void LTC6810_init_reg_limits(uint8_t total_ic, // Number of ICs in the system
+cell_asic *ic // A two dimensional array that stores the data
+)
+{
+	for(uint8_t cic=0; cic<total_ic; cic++)
+	{
+		ic[cic].ic_reg.cell_channels=6;
+		ic[cic].ic_reg.stat_channels=4;
+		ic[cic].ic_reg.aux_channels=6;
+		ic[cic].ic_reg.num_cv_reg=2;
+		ic[cic].ic_reg.num_gpio_reg=2;
+		ic[cic].ic_reg.num_stat_reg=3;
+	}
+	
+	
+	
+/*!
+ Helper function to set appropriate bits in CFGR register based on bit function
+  @return void
+  */
+
+void LTC6810_set_cfgr(uint8_t nIC, //!< Current IC
+					  cell_asic *ic, //!< A two dimensional array that will store the data 
+					  bool refon, //!< The REFON bit
+					  bool adcopt, //!< The ADCOPT bit
+					  bool gpio[4], //!< The GPIO bits
+					  bool dcc[6],  //!< The DCC bits 
+					  bool dcc_0,  //!< The DCC bit 
+					  bool mcal, //!< Enable Multi-Calibration
+					  bool en_dtmen, //!< Enable Discharge timer monitor
+					  bool dis_red, //!< Disable Digital Redundancy Check
+					  bool fdrf, //!< Force digital Redundancy Failure
+					  bool sconv, //!< Enable Cell Measurement Redundancy using S Pin
+					  bool dcto[4], //!< Discharge Time Out Value
+					  uint16_t uv, //!< The UV value
+					  uint16_t ov //!< The OV value
+					  );	
+}
